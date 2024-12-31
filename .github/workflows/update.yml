@@ -1,0 +1,23 @@
+on:
+  workflow_dispatch: 
+  schedule:
+    - cron: "0 0 * * *" 
+
+jobs:
+  update-date:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Update date file
+        run: |
+          echo "Current date: $(date -u)" > date.txt
+
+      - name: Commit and push changes
+        run: |
+          git config --global user.name "GitHub Bot"
+          git config --global user.email "bot@example.com"
+          git add date.txt
+          git commit -m "Update date"
+          git push
