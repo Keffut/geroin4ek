@@ -8,25 +8,39 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: check
+      - name: check out repository
         uses: actions/checkout@v3
 
-      - name: cfg
+      - name: configure git
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
-      - name: upd
+      - name: remove outdated identifiers
+        run: |
+          current_date=$(date +'%d.%m.%Y')
+          echo "Current date: $current_date"
+          
+          awk -F ' ' -v date="$current_date" '
+            BEGIN {split(date, d, "."); current_date = mktime(d[3] " " d[2] " " d[1] " 00 00 00")}
+            {
+              split($2, f, ".")
+              line_date = mktime(f[3] " " f[2] " " f[1] " 00 00 00")
+              if (line_date >= current_date) print $0
+            }
+          ' codes.txt > temp.txt && mv temp.txt codes.txt
+
+      - name: update date in file
         run: |
           echo "$(date +'%d.%m.%Y')" | cat - codes.txt > temp.txt && mv temp.txt codes.txt
 
-      - name: commit
+      - name: commit changes
         run: |
           git add codes.txt
-          git commit -m "Update date to $(date +'%d.%m.%Y')" || echo "No changes to commit"
+          git commit -m "Update date and remove outdated identifiers" || echo "No changes to commit"
 
-      - name: fetch
+      - name: fetch all changes
         run: git fetch --all
 
-      - name: push
+      - name: push changes
         run: git push origin HEAD || git push origin HEAD --force
