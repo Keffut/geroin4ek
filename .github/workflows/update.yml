@@ -17,7 +17,8 @@ jobs:
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
       - name: upd
-        run: echo "$(date +'%d.%m.%Y')" > codes.txt
+        run: |
+          echo "$(date +'%d.%m.%Y')" | cat - codes.txt > temp.txt && mv temp.txt codes.txt
 
       - name: commit
         run: |
