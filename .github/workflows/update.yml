@@ -4,25 +4,24 @@ on:
   workflow_dispatch:
 
 jobs:
-  update-date:
+  1:
     runs-on: ubuntu-latest
 
     steps:
-      - name: check out repository
+      - name: 2
         uses: actions/checkout@v3
 
-      - name: configure git
+      - name: 3
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
-      - name: remove outdated identifiers
+      - name: 4
         run: |
-          current_date=$(date +'%d.%m.%Y')
-          echo "Current date: $current_date"
-          
-          awk -F ' ' -v date="$current_date" '
-            BEGIN {split(date, d, "."); current_date = mktime(d[3] " " d[2] " " d[1] " 00 00 00")}
+          current_date=$(date +%s)
+          echo "$current_date"
+
+          awk -F ' ' -v current_date="$current_date" '
             {
               split($2, f, ".")
               line_date = mktime(f[3] " " f[2] " " f[1] " 00 00 00")
@@ -30,17 +29,17 @@ jobs:
             }
           ' codes.txt > temp.txt && mv temp.txt codes.txt
 
-      - name: update date in file
+      - name: 5
         run: |
-          echo "$(date +'%d.%m.%Y')" | cat - codes.txt > temp.txt && mv temp.txt codes.txt
+          echo "$(date +%s)" | cat - codes.txt > temp.txt && mv temp.txt codes.txt
 
-      - name: commit changes
+      - name: 6
         run: |
           git add codes.txt
-          git commit -m "Update date and remove outdated identifiers" || echo "No changes to commit"
+          git commit -m "Update" || echo "No changes"
 
-      - name: fetch all changes
+      - name: 7
         run: git fetch --all
 
-      - name: push changes
+      - name: 8
         run: git push origin HEAD || git push origin HEAD --force
