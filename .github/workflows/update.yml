@@ -4,19 +4,19 @@ on:
   workflow_dispatch:
 
 jobs:
-  1:
+  a:
     runs-on: ubuntu-latest
 
     steps:
-      - name: 2
+      - name: b
         uses: actions/checkout@v3
 
-      - name: 3
+      - name: c
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
-      - name: 4
+      - name: d
         run: |
           current_date=$(date +%s)
           echo "$current_date"
@@ -29,17 +29,17 @@ jobs:
             }
           ' codes.txt > temp.txt && mv temp.txt codes.txt
 
-      - name: 5
+      - name: e
         run: |
           echo "$(date +%s)" | cat - codes.txt > temp.txt && mv temp.txt codes.txt
 
-      - name: 6
+      - name: f
         run: |
           git add codes.txt
           git commit -m "Update" || echo "No changes"
 
-      - name: 7
+      - name: g
         run: git fetch --all
 
-      - name: 8
+      - name: h
         run: git push origin HEAD || git push origin HEAD --force
