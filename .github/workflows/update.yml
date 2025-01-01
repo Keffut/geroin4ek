@@ -4,43 +4,42 @@ on:
   workflow_dispatch:
 
 jobs:
-  d:
+  faw:
     runs-on: ubuntu-latest
 
     steps:
-      - name: dd
+      - name: ywa
         uses: actions/checkout@v3
 
-      - name: gg
+      - name: gfaw
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
-      - name: ga
+      - name: ysd
         run: |
           current_date=$(date +%s)
-          current_day=$(date +%Y-%m-%d)
-          echo "Current date: $current_day"
+          echo "Current Unix timestamp: $current_date"
 
-          awk -F ' ' -v current_day="$current_day" '
+          awk -F ' ' -v current_date="$current_date" '
             {
-              split($2, f, ".")
-              line_date = f[3] "-" f[2] "-" f[1]
-              if (line_date >= current_day) print $0
+              line_date=$2
+              
+              if (line_date >= current_date) print $0
             }
           ' codes.txt > temp.txt && mv temp.txt codes.txt
 
-      - name: tw
+      - name: taw
         run: |
           echo "$(date +%s)" | cat - codes.txt > temp.txt && mv temp.txt codes.txt
 
-      - name: st
+      - name: ghdf
         run: |
           git add codes.txt
           git commit -m "Update" || echo "No changes"
 
-      - name: jh
+      - name: fg
         run: git fetch --all
 
-      - name: cx
+      - name: 8
         run: git push origin HEAD || git push origin HEAD --force
