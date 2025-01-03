@@ -27,16 +27,16 @@ jobs:
               
               if (line_date >= current_date) print $0
             }
-          ' codes.txt > temp.txt && mv temp.txt codes.txt
+          ' 1.txt > temp.txt && mv temp.txt 1.txt
 
       - name: taw
         run: |
-          echo "$(date +%s)" | cat - codes.txt > temp.txt && mv temp.txt codes.txt
+          echo "$(date +%s)" | cat - 1.txt > temp.txt && mv temp.txt 1.txt
 
       - name: ghdf
         run: |
-          git add codes.txt
-          git commit -m "Update" || echo "No changes"
+          git add 1.txt
+          git commit -m "Upd" || echo "No"
 
       - name: fg
         run: git fetch --all
